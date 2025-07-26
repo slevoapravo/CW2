@@ -6,13 +6,38 @@ class Vacancy:
     def __init__(self, name, alternate_url, salary_from, salary_to, area_name, requirement, responsibility):
         """ Конструктор класса """
 
-        self.name: str = name
-        self.alternate_url: str = alternate_url
-        self.salary_from: int = salary_from
-        self.salary_to: int = salary_to
-        self.area_name: str = area_name
-        self.requirement: str = requirement
-        self.responsibility: str = responsibility
+        self.name: str = self.validate_name(name)
+        self.alternate_url: str = self.validate_url(alternate_url)
+        self.salary_from: int = self.validate_salary(salary_from)
+        self.salary_to: int = self.validate_salary(salary_to)
+        self.area_name: str = self.validate_area_name(area_name)
+        self.requirement: str = self.validate_text(requirement)
+        self.responsibility: str = self.validate_text(responsibility)
+
+    def validate_name(self, name: str) -> str:
+        if not name or not isinstance(name, str):
+            raise ValueError("Имя вакансии должно быть непустой строкой.")
+        return name
+
+    def validate_url(self, url: str) -> str:
+        if not url.startswith("http://") and not url.startswith("https://"):
+            raise ValueError("Ссылка на вакансию должна начинаться с http:// или https://")
+        return url
+
+    def validate_salary(self, salary: int) -> int:
+        if not isinstance(salary, int) or salary < 0:
+            raise ValueError("Зарплата должна быть неотрицательным целым числом.")
+        return salary
+
+    def validate_area_name(self, area_name: str) -> str:
+        if not area_name or not isinstance(area_name, str):
+            raise ValueError("Название региона должно быть непустой строкой.")
+        return area_name
+
+    def validate_text(self, text: str) -> str:
+        if not isinstance(text, str):
+            raise ValueError("Описание должно быть строкой.")
+        return text
 
     def __str__(self) -> str:
         """ Строковое представление вакансии """

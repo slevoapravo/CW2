@@ -25,27 +25,28 @@ def test_vacancy_lt(vacancy, vacancy2):
     """ Тест утверждает, что одно значение меньше другого """
 
     assert vacancy2 < vacancy
-    if vacancy > vacancy2:
-        assert ValueError
 
 
 def test_vacancy_from_hh_dict(vacancy):
     """ Тест утверждает, что метод вернет экземпляр класса в виде списка """
 
+    vacancy_dict = vacancy.to_dict()
     assert (
-        "Наименование вакансии: Менеджер по работе с клиентами,"
-        "Ссылка на вакансию: https://hh.ru/vacancy/101709979,"
-        "Зарплата: от 4000000 до 7000000,"
-        "Место работы: Ташкент,"
-        "Краткое описание: Опыт работы в продажах обязателен,"
-        "Консультирование клиентов,"
+            vacancy_dict["name"] == "Менеджер по работе с клиентами" and
+            vacancy_dict["alternate_url"] == "https://hh.ru/vacancy/101709979" and
+            vacancy_dict["salary_from"] == 4_000_000 and
+            vacancy_dict["salary_to"] == 7_000_000 and
+            vacancy_dict["area_name"] == "Ташкент" and
+            vacancy_dict["requirement"] == "Опыт работы в продажах обязателен" and
+            vacancy_dict["responsibility"] == "Консультирование клиентов"
     )
 
 
 def test_vacancy_to_dict(vacancy):
     """ Тест утверждает, что метод вернет вакансию в виде словаря """
 
-    assert {
+    vacancy_dict = vacancy.to_dict()
+    assert vacancy_dict == {
         "name": "Менеджер по работе с клиентами",
         "alternate_url": "https://hh.ru/vacancy/101709979",
         "salary_from": 4000000,
