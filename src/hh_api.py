@@ -15,10 +15,6 @@ class HeadHunterAPI(GetVacanciesAPI, ABC):
         self.__params = {"text": "", "per_page": "", "only_with_salary": True}
 
     @abstractmethod
-    def get_response(self, keyword: str, per_page: int) -> dict:
-        """Абстрактный метод для получения ответа от API"""
-        pass
-
     def get_vacancies(self, keyword: str, per_page: int):
         response = self.get_response(keyword, per_page)
         return response["items"]
