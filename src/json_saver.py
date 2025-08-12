@@ -2,8 +2,6 @@ import json
 
 from src.saver import Saver
 
-
-
 # Определение переменной для пути к json-файлу
 TEST_VACANCIES_PATH_JSON = "tests/tests_data/vacancies.json"
 

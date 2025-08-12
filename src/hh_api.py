@@ -25,9 +25,11 @@ class RealHeadHunterAPI(HeadHunterAPI):
     def get_response(self, keyword: str, per_page: int) -> dict:
         self._HeadHunterAPI__params["text"] = keyword
         self._HeadHunterAPI__params["per_page"] = per_page
-        response = requests.get(self._HeadHunterAPI__url, headers=self._HeadHunterAPI__headers, params=self._HeadHunterAPI__params)
-
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise Exception(f"Ошибка при получении данных: {response.status_code} - {response.text}")
+        response = requests.get(
+            self._HeadHunterAPI__url,
+            headers=self._HeadHunterAPI__headers,
+            params=self._HeadHunterAPI__params,
+        )
+        # Поднимает HTTPError для кодов 4xx/5xx
+        response.raise_for_status()
+        return response.json()
