@@ -1,21 +1,45 @@
 import requests
-from requests import Response
+from abc import ABC, abstractmethod
 
-from src.get_vacancies import GetVacanciesAPI
+class GetVacanciesAPI:
+    """Базовый класс для получения вакансий, может содержать общую логику."""
+    pass
 
-
-class HeadHunterAPI(GetVacanciesAPI):
-    """ Класс для подключения к hh.ru """
+class HeadHunterAPI(GetVacanciesAPI, ABC):
+    """Абстрактный класс для работы с API HeadHunter."""
 
     def __init__(self):
-        self.url = "https://api.hh.ru/vacancies"
-        self.headers = {"User-Agent": "HH-User-Agent"}
-        self.params = {"text": "", "per_page": "", "only_with_salary": True}
+        self.__url = "https://api.hh.ru/vacancies"
+        self.__headers = {"User-Agent": "HH-User-Agent"}
+        self.__params = {"text": "", "per_page": "", "only_with_salary": True}
 
-    def get_response(self, keyword, per_page) -> Response:
-        self.params["text"] = keyword
-        self.params["per_page"] = per_page
-        return requests.get(self.url, params=self.params)
+    @abstractmethod
+    def get_vacancies(self, keyword: str, per_page: int):
+        """Получение вакансий по ключевому слову и количеству."""
+        response = self.get_response(keyword, per_page)
+        return response["items"]
+
+    @abstractmethod
+    def get_response(self, keyword: str, per_page: int) -> dict:
+        """Запрос к API для получения данных о вакансиях."""
+        pass
+
+class RealHeadHunterAPI(HeadHunterAPI):
+    """Реализация API HeadHunter."""
+
+    def get_response(self, keyword: str, per_page: int) -> dict:
+        self._HeadHunterAPI__params["text"] = keyword
+        self._HeadHunterAPI__params["per_page"] = per_page
+        response = requests.get(self._HeadHunterAPI__url, headers=self._HeadHunterAPI__headers,
+                                params=self._HeadHunterAPI__params)
+
+        # Проверка статус кода
+        if response.status_code == 200:
+            return response.json()
+        else:
+            raise Exception(f"Ошибка при получении данных: {response.status_code} - {response.text}")
 
     def get_vacancies(self, keyword: str, per_page: int):
-        return self.get_response(keyword, per_page).json()["items"]
+        """Переопределение метода получения вакансий."""
+        items = super().get_vacancies(keyword, per_page)
+        return items

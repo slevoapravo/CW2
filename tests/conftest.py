@@ -1,5 +1,4 @@
 import pytest
-
 from config import TEST_VACANCIES_PATH_JSON, TEST_VACANCIES_PATH_TXT
 from src.json_saver import JSONSaver
 from src.txt_saver import TXTSaver
