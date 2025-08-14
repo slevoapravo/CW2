@@ -1,18 +1,18 @@
 import json
 
-from src.saver import Saver
-
 # Определение переменной для пути к json-файлу
 TEST_VACANCIES_PATH_JSON = "tests/tests_data/vacancies.json"
 
 class Saver:
+    """ Базовый класс для сохранения данных. """
+    pass  # Здесь можно добавить общий функционал для сохранителей
 
 class JSONSaver(Saver):
     """ Класс для записи в json-файл """
 
     def __init__(self, filename=TEST_VACANCIES_PATH_JSON):
         """ Конструктор класса """
-            self.__filename = filename  # Приватный атрибут
+        self.__filename = filename  # Приватный атрибут
 
     def write_data(self, vacancies):
         """ Запись данных в json """

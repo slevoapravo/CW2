@@ -5,14 +5,13 @@ class Vacancy:
 
     def __init__(self, name, alternate_url, salary_from, salary_to, area_name, requirement, responsibility):
         """ Конструктор класса """
-
-        self.name: str = self.__validate_name(name)
-        self.alternate_url: str = self.__validate_url(alternate_url)
-        self.salary_from: int = self.__validate_salary(salary_from)
-        self.salary_to: int = self.__validate_salary(salary_to)
-        self.area_name: str = self.__validate_area_name(area_name)
-        self.requirement: str = self.__validate_text(requirement)
-        self.responsibility: str = self.__validate_text(responsibility)
+        self.name: str = self.validate_name(name)
+        self.alternate_url: str = self.validate_url(alternate_url)
+        self.salary_from: int = self.validate_salary(salary_from)
+        self.salary_to: int = self.validate_salary(salary_to)
+        self.area_name: str = self.validate_area_name(area_name)
+        self.requirement: str = self.validate_text(requirement)
+        self.responsibility: str = self.validate_text(responsibility)
 
     def validate_name(self, name: str) -> str:
         if not name or not isinstance(name, str):
@@ -41,7 +40,6 @@ class Vacancy:
 
     def __str__(self) -> str:
         """ Строковое представление вакансии """
-
         return (f"Наименование вакансии: {self.name}\n"
                 f"Ссылка на вакансию: {self.alternate_url}\n"
                 f"Зарплата: от {self.salary_from} до {self.salary_to}\n"
@@ -51,13 +49,11 @@ class Vacancy:
 
     def __lt__(self, other) -> bool:
         """ Метод сравнения от большего к меньшему """
-
         return self.salary_from < other.salary_from
 
     @classmethod
     def from_hh_dict(cls, vacancy_data: dict):
-        """ Метод возвращает экземпляр класса в виде списка """
-
+        """ Метод возвращает экземпляр класса из словаря вакансии """
         salary = vacancy_data.get("salary")
 
         return cls(
@@ -72,7 +68,6 @@ class Vacancy:
 
     def to_dict(self) -> dict:
         """ Метод возвращает вакансию в виде словаря """
-
         return {
             "name": self.name,
             "alternate_url": self.alternate_url,
