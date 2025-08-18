@@ -7,8 +7,8 @@ class Vacancy:
         """ Конструктор класса """
         self.name: str = self.validate_name(name)
         self.alternate_url: str = self.validate_url(alternate_url)
-        self.salary_from: int = self.validate_salary(salary_from)
-        self.salary_to: int = self.validate_salary(salary_to)
+        self.salary_from: int = self._validate_salary(salary_from)
+        self.salary_to: int = self._validate_salary(salary_to)
         self.area_name: str = self.validate_area_name(area_name)
         self.requirement: str = self.validate_text(requirement)
         self.responsibility: str = self.validate_text(responsibility)
@@ -23,7 +23,8 @@ class Vacancy:
             raise ValueError("Ссылка на вакансию должна начинаться с http:// или https://")
         return url
 
-    def validate_salary(self, salary: int) -> int:
+    def _validate_salary(self, salary: int) -> int:
+        """ Приватный метод для валидации зарплаты """
         if not isinstance(salary, int) or salary < 0:
             raise ValueError("Зарплата должна быть неотрицательным целым числом.")
         return salary
@@ -77,3 +78,14 @@ class Vacancy:
             "requirement": self.requirement,
             "responsibility": self.responsibility,
         }
+
+    # Метод get_response (например, в классе, который обрабатывает API запросы)
+    def get_response(self, keyword, per_page) -> 'Response':
+        self.params["text"] = keyword
+        self.params["per_page"] = per_page
+        response = requests.get(self.url, params=self.params)
+
+        if response.status_code == 200:
+            return response
+        else:
+                        response.raise_for_status()
