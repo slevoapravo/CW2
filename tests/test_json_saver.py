@@ -1,5 +1,5 @@
 def test_write_data(json_saver):
-    """ Тестирование добавление вакансии """
+    """ Тестирование добавления вакансии """
 
     json_saver.write_data(
         [
@@ -11,10 +11,7 @@ def test_write_data(json_saver):
                 "area_name": "Алматы",
                 "requirement": "Средне-специальное медицинское образование. Опыт работы желателен. "
                                "Наличие действующего сертификата специалиста. Опытный пользователь ПК.",
-                "responsibility": "Хранение и подготовка к транспортировке биоматериала. "
-                                  "Соблюдение санэпидрежима, правил асептики и антисептики. "
-                                  "Сервисное поведение. Регистрация пациентов и консультирование "
-                                  "(совмещение <highlighttext>админ</highlighttext>..."
+                "responsibility": "Хранение и подготовка к транспортировке биоматериала..."
             }
         ]
     )
@@ -23,10 +20,13 @@ def test_write_data(json_saver):
 def test_get_data(json_saver):
     """ Тест утверждает, что в файле лежит одна вакансия """
 
+    json_saver.write_data([{"name": "Тестовая вакансия"}])  # Добавьте запись перед проверкой
     assert len(json_saver.get_data()) == 1
 
 
 def test_del_data(json_saver):
     """ Тест утверждает, что файл пустой после удаления данных """
 
-    assert json_saver.del_data() is None
+    json_saver.write_data([{"name": "Тестовая вакансия"}])  # Добавляем, чтобы потом удалить
+    json_saver.del_data()
+    assert json_saver.get_data() == []

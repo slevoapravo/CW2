@@ -1,8 +1,10 @@
 from config import VACANCIES_PATH_JSON, VACANCIES_PATH_TXT
-from src.hh_api import HeadHunterAPI
+from src.hh_api import RealHeadHunterAPI
 from src.json_saver import JSONSaver
 from src.txt_saver import TXTSaver
 from src.vacancy import Vacancy
+
+
 
 
 def user_choice_json():
@@ -11,12 +13,12 @@ def user_choice_json():
     keyword = input("Какую профессию ищите?\n").lower()
     per_page = int(input("Сколько профессии вывести?\n"))
 
-    hh_api = HeadHunterAPI()
+    hh_api = RealHeadHunterAPI()  # Используйте подкласс
     vacancies = hh_api.get_vacancies(keyword, per_page)
     vacancies = [Vacancy.from_hh_dict(vacancy) for vacancy in vacancies]
     vacancies = sorted(vacancies, reverse=True)
 
-    print("Топ выбранных вакансии с 'HeadHunter' по зарплате: \n")
+    print("Топ выбранных вакансий с 'HeadHunter' по зарплате: \n")
     for i in sorted(vacancies, reverse=True):
         print(i)
 
@@ -33,12 +35,13 @@ def user_choice_txt():
 
     keyword = input("Какую профессию ищите?\n").lower()
     per_page = int(input("Сколько профессии вывести?\n"))
-    hh_api = HeadHunterAPI()
+
+    hh_api = RealHeadHunterAPI()  # Используйте подкласс
     vacancies = hh_api.get_vacancies(keyword, per_page)
     vacancies = [Vacancy.from_hh_dict(vacancy) for vacancy in vacancies]
     vacancies = sorted(vacancies, reverse=True)
 
-    print("Топ выбранных вакансии с 'HeadHunter' по зарплате: \n")
+    print("Топ выбранных вакансий с 'HeadHunter' по зарплате: \n")
     for i in sorted(vacancies, reverse=True):
         print(i)
 

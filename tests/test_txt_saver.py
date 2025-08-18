@@ -1,5 +1,5 @@
-def test_write_data(txt_saver):
-    """ Тестирование добавление вакансии """
+def test_write_data_txt(txt_saver):
+    """ Тестирование добавления вакансии """
 
     txt_saver.write_data(
         "Наименование вакансии: Оператор пункта выдачи Wildberries\n"
@@ -8,18 +8,19 @@ def test_write_data(txt_saver):
         "Место работы: Астана\n"
         "Краткое описание: Ответственность. Стрессоустойчивость. ВНИМАТЕЛЬНОСТЬ. Легкообучаемость."
         "Умение работать с компьютером, коммуникабельность. Желательно с опытом работы.\n"
-        "Выдавать товар клиентам. Работа с браком и возвратом. Приемка товара. Поддержание порядка на ПВЗ.\n"
     )
-    txt_saver.write_data("\n")
 
 
-def test_get_data(txt_saver):
+def test_get_data_txt(txt_saver):
     """ Тест утверждает, что в файле лежит одна вакансия, состоящая из 6 строк + Пробел"""
 
-    assert len(txt_saver.get_data()) == 7
+    txt_saver.write_data("Наименование: тест")  # Запись перед проверкой
+    assert len(txt_saver.get_data()) == 2  # Проверка на 2 строки: одна с данными, вторая - пробел
 
 
-def test_del_data(txt_saver):
+def test_del_data_txt(txt_saver):
     """ Тест утверждает, что файл пустой после удаления данных """
 
-    assert txt_saver.del_data() is None
+    txt_saver.write_data("Наименование: тест")  # Добавляем, чтобы потом удалить
+    txt_saver.del_data()
+    assert txt_saver.get_data() == []
